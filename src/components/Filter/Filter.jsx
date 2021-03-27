@@ -1,29 +1,34 @@
-import { Component } from "react";
 import PropTypes from "prop-types";
 import { label, input } from "./Filter.module.scss";
+import actions from "../../redux/contacts/contacts-actions";
+import { connect } from "react-redux";
 
-class Filter extends Component {
-  render() {
-    const { filter, onChange } = this.props;
-
-    return (
-      <label className={label}>
-        Find contacts by name
-        <input
-          className={input}
-          type="text"
-          name="filter"
-          value={filter}
-          onChange={onChange}
-        ></input>
-      </label>
-    );
-  }
-}
+const Filter = ({ value, onChange }) => {
+  return (
+    <label className={label}>
+      Find contacts by name
+      <input
+        className={input}
+        type="text"
+        name="filter"
+        value={value}
+        onChange={onChange}
+      ></input>
+    </label>
+  );
+};
 
 Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default Filter;
+const mapStateToProps = (state) => ({
+  value: state.contacts.filter,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChange: (event) => dispatch(actions.changeFilter(event.target.value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
