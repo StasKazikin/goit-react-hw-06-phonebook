@@ -25,11 +25,23 @@ class ContactForm extends Component {
     this.setState({ name: "", number: "" });
   };
 
-  handleSubmit = (event) => {
-    const { name, number } = this.state;
+  sameContact = (contactName, contacts) => {
+    return contacts.find(({ name }) => {
+      return name.toLowerCase() === contactName.toLowerCase();
+    });
+  };
 
+  handleSubmit = (event) => {
     event.preventDefault();
 
+    const { name, number } = this.state;
+
+    const { contacts } = this.props;
+
+    if (this.sameContact(name, contacts.items)) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
     this.props.onSubmit({ id: shortid.generate(), name, number });
 
     this.reset();

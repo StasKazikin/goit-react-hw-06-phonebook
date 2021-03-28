@@ -3,7 +3,7 @@ import { list, item, button } from "./ContactList.module.scss";
 import actions from "../../redux/contacts/contacts-actions";
 import { connect } from "react-redux";
 
-const ContactList = ({ contacts, onClick }) => {
+const ContactList = ({ contacts, deleteContact }) => {
   return (
     <ul className={list}>
       {contacts.map(({ name, number, id }) => (
@@ -15,7 +15,7 @@ const ContactList = ({ contacts, onClick }) => {
             className={button}
             id={id}
             type="button"
-            onClick={() => onClick(id)}
+            onClick={() => deleteContact(id)}
           >
             Delete
           </button>
@@ -43,7 +43,7 @@ const mapStateToProps = ({ contacts: { items, filter } }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClick: (id) => dispatch(actions.deleteContact(id)),
+  deleteContact: (id) => dispatch(actions.deleteContact(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
