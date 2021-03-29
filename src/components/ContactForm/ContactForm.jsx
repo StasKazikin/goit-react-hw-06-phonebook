@@ -42,9 +42,13 @@ class ContactForm extends Component {
       alert(`${name} is already in contacts`);
       return;
     }
-    this.props.onSubmit({ id: shortid.generate(), name, number });
 
-    this.reset();
+    if (name !== "") {
+      this.props.onSubmit({ id: shortid.generate(), name, number });
+      this.reset();
+      return;
+    }
+    alert("Введите имя контакта");
   };
 
   render() {
